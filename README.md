@@ -41,7 +41,7 @@ Build the final plugin binaries using:
 
 View the built plugin files at:
 
-    ./build/VST3/Debug/
+    ./build/VST3/Release/
 
 
 ## Testing
