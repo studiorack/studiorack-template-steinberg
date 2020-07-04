@@ -21,10 +21,11 @@ jobs:
           mkdir build
       - name: Build binaries
         run: |
+          cd build
           cmake -DSMTG_MYPLUGINS_SRC_PATH=../src ../vst3sdk
           cmake --build . --config Release
-          ls ./build/VST3
-          zip -r ./build/plugin.zip ./build/VST3
+          ls ./VST3
+          zip -r ./plugin.zip ./VST3
       - name: Create release
         id: create_release
         uses: actions/create-release@v1

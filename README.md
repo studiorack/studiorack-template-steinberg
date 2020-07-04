@@ -44,11 +44,23 @@ View the built plugin files at:
     ./build/VST3/Release/
 
 
-## Testing
+## Testing a plugin
 
 You can test the plugin is a valid VST2/VST3 plugin using [MrsWatson](https://github.com/teragonaudio/MrsWatson):
 
     mrswatson64 --display-info -p VST3/again.vst3
+
+
+## Releasing a plugin
+
+Release a plugin on GitHub by simply creating a version tag:
+
+    git tag v0.0.1
+    git push origin --tags
+
+This will run an automated build and release process on GitHub Actions:
+
+    .github/workflows/workflow.yml
 
 
 ## Resources & guides
