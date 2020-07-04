@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: install
+      run: git submodule update --init --recursive
     - name: copy
       run: cp -r vst2sdk/* vst3sdk
     - name: build
