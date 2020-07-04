@@ -19,6 +19,6 @@ jobs:
     - name: install
       run: mkdir build && cd build && cmake -DSMTG_MYPLUGINS_SRC_PATH=../src ../vst3sdk
     - name: build
-      run: ls && cmake --build . --config Release
+      run: cd build && cmake --build . --config Release
     - name: verify
-      run: ls ./VST3/Release/
+      run: ls ./build/VST3/Release/
