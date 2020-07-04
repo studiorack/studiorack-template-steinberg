@@ -15,7 +15,7 @@ jobs:
     - name: copy
       run: cp -r vst2sdk/* vst3sdk
     - name: install
-      run: mkdir build && cd build && cmake -G Xcode -DSMTG_MYPLUGINS_SRC_PATH=../src ../vst3sdk
+      run: mkdir build && cd build && cmake -DSMTG_MYPLUGINS_SRC_PATH=../src ../vst3sdk
     - name: build
       run: ls && cmake --build . --config Release
     - name: verify
