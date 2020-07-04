@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: versions
-      run: lsb_release -a && cmake -version && gcc --version
-    - name: init
+    - name: packages
+      run: sudo apt-get install cmake gcc "libstdc++6" libx11-xcb-dev libxcb-util-dev libxcb-cursor-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libfontconfig1-dev libcairo2-dev libgtkmm-3.0-dev libsqlite3-dev libxcb-keysyms1-dev
+    - name: submodules
       run: git submodule update --init --recursive
     - name: copy
       run: cp -r vst2sdk/* vst3sdk
