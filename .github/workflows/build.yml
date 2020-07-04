@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: versions
+      run: lsb_release -a && cmake -version && gcc --version
     - name: init
       run: git submodule update --init --recursive
     - name: copy
