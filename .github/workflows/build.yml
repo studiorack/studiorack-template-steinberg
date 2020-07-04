@@ -13,7 +13,7 @@ jobs:
     - name: install
       run: git submodule update --init --recursive
     - name: copy
-      run: cp -r vst2sdk/* vst3sdk
+      run: ls && cp -r vst2sdk/* vst3sdk
     - name: build
       run: mkdir build && cd build && cmake --build . --config Release
     - name: verify
