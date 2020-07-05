@@ -18,15 +18,16 @@ jobs:
       run: |
         git submodule update --init --recursive
         cp -r vst2sdk/* vst3sdk
-        mkdir build && cd build
         cmake \
           -DCMAKE_BUILD_TYPE=Release \
           -DSMTG_ADD_VST3_PLUGINS_SAMPLES=ON \
           -DSMTG_ADD_VST3_HOSTING_SAMPLES=OFF \
           -DSMTG_ADD_VSTGUI=ON \
-          -DSMTG_MYPLUGINS_SRC_PATH=../src \
-          ../vst3sdk
-        cmake --build . --parallel --config Release
+          -DSMTG_MYPLUGINS_SRC_PATH=./src \
+          -B build \
+          ./vst3sdk
+        cmake --build build --parallel --config Release
+
 
     - name: Test
       run: ctest -vv
