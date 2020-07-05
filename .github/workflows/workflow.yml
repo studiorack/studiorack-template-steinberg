@@ -50,8 +50,13 @@ jobs:
 
       - name: Build binaries
         run: |
-          cd build
+          echo "---test1---"
           echo $GENERATOR
+          echo "---test2---"
+
+      - name: Build binaries
+        run: |
+          cd build
           cmake \
             -G $GENERATOR \
             -DCMAKE_BUILD_TYPE=Release \
