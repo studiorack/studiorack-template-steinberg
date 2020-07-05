@@ -30,8 +30,8 @@ jobs:
             -DSMTG_MYPLUGINS_SRC_PATH=../src \
             ../vst3sdk
           cmake --build . --config Release
-          ls ./VST3/Release
-          zip -r ./plugin.zip ./VST3/Release
+          cd ./VST3/Release
+          zip -r ./plugin.zip *
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
