@@ -40,7 +40,7 @@ jobs:
       run: |
         cd ./build/VST3/Release
         mkdir ../artifact
-        zip -r ../artifact/macos.zip *
+        zip -r ../artifact/plugin-macos.zip *
 
     - name: Create release
       id: create_release
@@ -58,6 +58,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./build/VST3/artifact/macos.zip
-        asset_name: macos.zip
+        asset_path: ./build/VST3/artifact/plugin-macos.zip
+        asset_name: plugin-macos.zip
         asset_content_type: application/zip

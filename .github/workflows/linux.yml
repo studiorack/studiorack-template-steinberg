@@ -37,7 +37,7 @@ jobs:
       run: |
         cd ./build/VST3/Release
         mkdir ../artifact
-        zip -r ../artifact/linux.zip *
+        zip -r ../artifact/plugin-linux.zip *
 
     - name: Create release
       id: create_release
@@ -55,6 +55,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./build/VST3/artifact/linux.zip
-        asset_name: linux.zip
+        asset_path: ./build/VST3/artifact/plugin-linux.zip
+        asset_name: plugin-linux.zip
         asset_content_type: application/zip

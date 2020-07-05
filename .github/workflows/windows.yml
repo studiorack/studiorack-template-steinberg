@@ -38,7 +38,7 @@ jobs:
       run: |
         cd ./build/VST3/Release
         mkdir ../artifact
-        zip -r ../artifact/win.zip *
+        zip -r ../artifact/plugin-win.zip *
 
     - name: Create release
       id: create_release
@@ -56,6 +56,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./build/VST3/artifact/win.zip
-        asset_name: win.zip
+        asset_path: ./build/VST3/artifact/plugin-win.zip
+        asset_name: plugin-win.zip
         asset_content_type: application/zip
