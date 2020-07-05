@@ -16,30 +16,27 @@ jobs:
         include:
           - os: ubuntu-latest
             zip_name: plugin-linux
+            generator: 
           - os: macos-latest
             zip_name: plugin-mac
+            generator: Xcode
           - os: windows-latest
             zip_name: plugin-win
+            generator: Visual Studio 16 2019
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Install Linux dependencies
         if: matrix.os == 'ubuntu-latest'
-        env:
-          GENERATOR: 
         run: sudo apt-get install cmake gcc "libstdc++6" libx11-xcb-dev libxcb-util-dev libxcb-cursor-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libfontconfig1-dev libcairo2-dev libgtkmm-3.0-dev libsqlite3-dev libxcb-keysyms1-dev
 
       - name: Install macOS dependencies
         if: matrix.os == 'macOS-latest'
-        env:
-          GENERATOR: Xcode
         run: brew install cmake
 
       - name: Install Windows dependencies
         if: matrix.os == 'windows-latest'
-        env:
-          GENERATOR: Visual Studio 16 2019
         run: choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
 
       - name: Setup dependencies
@@ -48,17 +45,17 @@ jobs:
           cp -r vst2sdk/* vst3sdk
           mkdir build
 
-      - name: Build binaries
+      - name: Debug message
         run: |
           echo "---test1---"
-          echo $GENERATOR
+          echo ${{ matrix.generator }}
           echo "---test2---"
 
       - name: Build binaries
         run: |
           cd build
           cmake \
-            -G $GENERATOR \
+            -G ${{ matrix.generator }} \
             -DCMAKE_BUILD_TYPE=Release \
             -DSMTG_ADD_VST3_PLUGINS_SAMPLES=ON \
             -DSMTG_ADD_VST3_HOSTING_SAMPLES=OFF \
