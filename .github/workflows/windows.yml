@@ -27,8 +27,14 @@ jobs:
           -DSMTG_MYPLUGINS_SRC_PATH=./src \
           -B build \
           ./vst3sdk
-        cmake --build build --parallel --config Release
 
+    - name: Debug
+      shell: bash
+      run: ls build
+
+    - name: Build 2
+      shell: bash
+      run: cmake --build build --parallel --config Release
 
     - name: Test
       run: ctest -vv
