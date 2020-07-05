@@ -1,0 +1,63 @@
+name: MacOS
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: brew install cmake
+
+    - name: Build
+      shell: bash
+      env:
+        MACOSX_DEPLOYMENT_TARGET: 10.12
+      run: |
+        git submodule update --init --recursive
+        cp -r vst2sdk/* vst3sdk
+        mkdir build && cd build
+        cmake \
+          -GXcode \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DSMTG_ADD_VST3_PLUGINS_SAMPLES=ON \
+          -DSMTG_ADD_VST3_HOSTING_SAMPLES=OFF \
+          -DSMTG_ADD_VSTGUI=ON \
+          -DSMTG_MYPLUGINS_SRC_PATH=../src \
+          ../vst3sdk
+        cmake --build . --parallel --config Release
+
+    - name: Test
+      run: ctest -vv
+      working-directory: build
+
+    - name: Zip
+      shell: bash
+      run: |
+        cd ./build/VST3/Release
+        mkdir ../artifact
+        zip -r ../artifact/macos.zip *
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+
+      - name: Upload release
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/VST3/artifact/macos.zip
+          asset_name: macos.zip
+          asset_content_type: application/zip
