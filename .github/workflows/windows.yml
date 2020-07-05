@@ -26,8 +26,8 @@ jobs:
           -DSMTG_ADD_VSTGUI=ON \
           -DSMTG_MYPLUGINS_SRC_PATH=./src \
           -S ./vst3sdk \
-          -B ./build \
-        cmake --build ./build --parallel --config Release
+          -B ./build
+        cmake --build ./build --config Release
 
     - name: Test
       run: ctest -vv
