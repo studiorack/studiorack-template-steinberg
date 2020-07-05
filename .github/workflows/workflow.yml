@@ -8,7 +8,7 @@ name: Release plugin version
 
 jobs:
   build:
-    name: ${{ github.ref }} ${{ matrix.os }}
+    name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -51,6 +51,7 @@ jobs:
       - name: Build binaries
         run: |
           cd build
+          echo $GENERATOR
           cmake \
             -G $GENERATOR \
             -DCMAKE_BUILD_TYPE=Release \
