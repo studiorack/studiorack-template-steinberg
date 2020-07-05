@@ -40,7 +40,7 @@ Compile a development version of the plugin using:
       -DSMTG_ADD_VSTGUI=ON \
       -DSMTG_MYPLUGINS_SRC_PATH=../src \
       ../vst3sdk
-    cmake --build . --config Debug
+    cmake --build . --parallel --config Debug
 
 View the built plugin files at:
 
@@ -56,7 +56,7 @@ Build the final plugin binaries using:
       -DSMTG_ADD_VSTGUI=ON \
       -DSMTG_MYPLUGINS_SRC_PATH=../src \
       ../vst3sdk
-    cmake --build . --config Release
+    cmake --build . --parallel --config Release
 
 ## Testing a plugin
 
