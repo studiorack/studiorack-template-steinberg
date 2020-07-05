@@ -25,20 +25,13 @@ jobs:
           -DSMTG_ADD_VST3_HOSTING_SAMPLES=OFF \
           -DSMTG_ADD_VSTGUI=ON \
           -DSMTG_MYPLUGINS_SRC_PATH=./src \
-          -B build \
-          ./vst3sdk
-
-    - name: Debug
-      shell: bash
-      run: ls build
-
-    - name: Build 2
-      shell: bash
-      run: cmake --build build --parallel --config Release
+          -S ./vst3sdk \
+          -B ./build \
+        cmake --build ./build --parallel --config Release
 
     - name: Test
       run: ctest -vv
-      working-directory: build
+      working-directory: ./build
 
     - name: Zip
       shell: bash
