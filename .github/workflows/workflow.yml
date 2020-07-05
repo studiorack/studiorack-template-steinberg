@@ -22,10 +22,16 @@ jobs:
       - name: Build binaries
         run: |
           cd build
-          cmake -DSMTG_MYPLUGINS_SRC_PATH=../src ../vst3sdk
+          cmake \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DSMTG_ADD_VST3_PLUGINS_SAMPLES=ON \
+            -DSMTG_ADD_VST3_HOSTING_SAMPLES=OFF \
+            -DSMTG_ADD_VSTGUI=ON \
+            -DSMTG_MYPLUGINS_SRC_PATH=../src \
+            ../vst3sdk
           cmake --build . --config Release
-          ls ./VST3
-          zip -r ./plugin.zip ./VST3
+          ls ./VST3/Release
+          zip -r ./plugin.zip ./VST3/Release
       - name: Create release
         id: create_release
         uses: actions/create-release@v1

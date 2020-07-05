@@ -32,28 +32,42 @@ If you need VST2 support, copy vst2sdk files into VST3 folder using:
 Compile a development version of the plugin using:
 
     mkdir build && cd build
-    cmake -G Xcode -DSMTG_MYPLUGINS_SRC_PATH=../src ../vst3sdk
-
-Build the final plugin binaries using:
-
-    cd build
-    cmake --build . --config Release
+    cmake \
+      -G Xcode \
+      -DCMAKE_BUILD_TYPE=Debug \
+      -DSMTG_ADD_VST3_PLUGINS_SAMPLES=ON \
+      -DSMTG_ADD_VST3_HOSTING_SAMPLES=OFF \
+      -DSMTG_ADD_VSTGUI=ON \
+      -DSMTG_MYPLUGINS_SRC_PATH=../src \
+      ../vst3sdk
+    cmake --build . --config Debug
 
 View the built plugin files at:
 
-    ./build/VST3/Release/
+    ./build/VST3/Debug
 
+Build the final plugin binaries using:
+
+    cmake \
+      -G Xcode \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DSMTG_ADD_VST3_PLUGINS_SAMPLES=ON \
+      -DSMTG_ADD_VST3_HOSTING_SAMPLES=OFF \
+      -DSMTG_ADD_VSTGUI=ON \
+      -DSMTG_MYPLUGINS_SRC_PATH=../src \
+      ../vst3sdk
+    cmake --build . --config Release
 
 ## Testing a plugin
 
-You can test the plugin is a valid VST2/VST3 plugin using [MrsWatson](https://github.com/teragonaudio/MrsWatson):
+You can test whether you generated a valid VST2/VST3 plugin using [MrsWatson](https://github.com/teragonaudio/MrsWatson):
 
     mrswatson64 --display-info -p VST3/again.vst3
 
 
 ## Releasing a plugin
 
-Release a plugin on GitHub by simply creating a version tag:
+Release a plugin version on GitHub by simply creating a version tag:
 
     git tag v0.0.1
     git push origin --tags
