@@ -56,11 +56,13 @@ jobs:
           choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
 
       - name: Setup
+        shell: bash
         run: |
           git submodule update --init --recursive
           cp -R -v ./vst2sdk/public.sdk/source/vst2.x ./vst3sdk/public.sdk/source
 
       - name: Build
+        shell: bash
         run: |
           cmake \
             -G "${{ matrix.generator }}" \
