@@ -56,7 +56,7 @@ jobs:
 
       - name: Debug
         run: |
-          cp --help
+          cp
 
       - name: Setup
         run: |
