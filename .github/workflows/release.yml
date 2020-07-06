@@ -57,7 +57,7 @@ jobs:
       - name: Setup
         run: |
           git submodule update --init --recursive
-          cp -R -v vst2sdk/* vst3sdk
+          rsync -r -v ./vst2sdk/public.sdk/* ./vst3sdk/public.sdk
 
       - name: Build
         run: |
