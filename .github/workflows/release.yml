@@ -54,19 +54,11 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-          choco install rsync
-          refreshenv
-
-      - name: Debug
-        run: rsync --version
 
       - name: Setup
         run: |
           git submodule update --init --recursive
-
-      - name: Setup 2
-        run: |
-          rsync -r -v ./vst2sdk/public.sdk/* ./vst3sdk/public.sdk
+          cp -R -v ./vst2sdk/public.sdk/source/vst2.x ./vst3sdk/public.sdk/source
 
       - name: Build
         run: |
