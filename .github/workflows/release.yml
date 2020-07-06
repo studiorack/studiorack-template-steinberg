@@ -54,10 +54,14 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
 
+      - name: Debug
+        run: |
+          cp --help
+
       - name: Setup
         run: |
           git submodule update --init --recursive
-          cp -R -n -v vst2sdk/* vst3sdk
+          cp -R -v vst2sdk/* vst3sdk
 
       - name: Build
         run: |
