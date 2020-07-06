@@ -56,9 +56,15 @@ jobs:
           choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
           choco install rsync
 
+      - name: Debug
+        run: rsync --version
+
       - name: Setup
         run: |
           git submodule update --init --recursive
+
+      - name: Setup 2
+        run: |
           rsync -r -v ./vst2sdk/public.sdk/* ./vst3sdk/public.sdk
 
       - name: Build
