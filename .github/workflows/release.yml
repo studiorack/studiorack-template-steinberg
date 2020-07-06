@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   create_release:
@@ -57,7 +57,7 @@ jobs:
       - name: Setup
         run: |
           git submodule update --init --recursive
-          cp -r vst2sdk/* vst3sdk
+          cp --recursive --update --verbose vst2sdk/* vst3sdk
 
       - name: Build
         run: |
