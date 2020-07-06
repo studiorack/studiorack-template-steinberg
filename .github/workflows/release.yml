@@ -31,7 +31,7 @@ jobs:
         include:
           - os: ubuntu-latest
             zip_name: plugin-linux
-            generator: 
+            generator: Unix Makefiles
           - os: macos-latest
             zip_name: plugin-mac
             generator: Xcode
