@@ -1,0 +1,90 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  create_release:
+    name: Create release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+
+  build_releases:
+    name: Build releases
+    needs: create_release
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            zip_name: plugin-linux
+            generator: 
+          - os: macos-latest
+            zip_name: plugin-mac
+            generator: Xcode
+          - os: windows-latest
+            zip_name: plugin-win
+            generator: Visual Studio 16 2019
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Linux dependencies
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt-get install cmake gcc "libstdc++6" libx11-xcb-dev libxcb-util-dev libxcb-cursor-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libfontconfig1-dev libcairo2-dev libgtkmm-3.0-dev libsqlite3-dev libxcb-keysyms1-dev
+
+      - name: Install macOS dependencies
+        if: matrix.os == 'macOS-latest'
+        run: brew install cmake
+
+      - name: Install Windows dependencies
+        if: matrix.os == 'windows-latest'
+        run: choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+
+      - name: Setup
+        run: |
+          git submodule update --init --recursive
+          cp -r vst2sdk/* vst3sdk
+
+      - name: Build
+        run: |
+          cmake \
+            -G ${{ matrix.generator }} \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DSMTG_ADD_VST3_PLUGINS_SAMPLES=ON \
+            -DSMTG_ADD_VST3_HOSTING_SAMPLES=OFF \
+            -DSMTG_ADD_VSTGUI=ON \
+            -DSMTG_MYPLUGINS_SRC_PATH=./src \
+            -S ./vst3sdk \
+            -B ./build
+          cmake --build ./build --config Release
+
+      - name: Compress
+        shell: bash
+        run: |
+          cd ./build/VST3/Release
+          mkdir ../artifact
+          zip -r ../artifact/${{ matrix.zip_name }}.zip *
+
+      - name: Upload
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_name: ./build/VST3/artifact/${{ matrix.zip_name }}.zip
+          asset_name: ${{ matrix.zip_name }}.zip
+          asset_content_type: application/zip
