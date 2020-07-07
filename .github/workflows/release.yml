@@ -68,7 +68,7 @@ jobs:
           cmake \
             -G "${{ matrix.generator }}" \
             -DCMAKE_BUILD_TYPE=Release \
-            -DSMTG_ADD_VST3_PLUGINS_SAMPLES=ON \
+            -DSMTG_ADD_VST3_PLUGINS_SAMPLES=OFF \
             -DSMTG_ADD_VST3_HOSTING_SAMPLES=OFF \
             -DSMTG_ADD_VSTGUI=ON \
             -DSMTG_MYPLUGINS_SRC_PATH=./src \
