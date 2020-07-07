@@ -67,13 +67,17 @@ Build the final plugin binaries using:
     cmake --build ./build --config Release
 
 
-## Testing a plugin
+## Testing your plugin
 
 Ensure you have run a build with -DSMTG_ADD_VST3_HOSTING_SAMPLES=ON
 
 Then run the validator passing through the path to your VST plugin using:
 
-    ./build/bin/Release/validator ./build/VST3/Release/helloworld.vst3
+    ./build/bin/Release/validator ./build/VST3/Release/helloworld.vst3 > ./build/VST3/Release/helloworld.txt
+
+Convert the validator report metadata into json using:
+
+    node index.js ./build/VST3/Release/helloworld.txt ./build/VST3/Release/helloworld.json
 
 
 ## Releasing a plugin

@@ -69,12 +69,18 @@ jobs:
             -G "${{ matrix.generator }}" \
             -DCMAKE_BUILD_TYPE=Release \
             -DSMTG_ADD_VST3_PLUGINS_SAMPLES=OFF \
-            -DSMTG_ADD_VST3_HOSTING_SAMPLES=OFF \
-            -DSMTG_ADD_VSTGUI=ON \
+            -DSMTG_ADD_VST3_HOSTING_SAMPLES=ON \
+            -DSMTG_ADD_VSTGUI=OFF \
             -DSMTG_MYPLUGINS_SRC_PATH=./src \
             -S ./vst3sdk \
             -B ./build
           cmake --build ./build --config Release
+
+      - name: Metadata
+        shell: bash
+        run: |
+          ./build/bin/Release/validator ./build/VST3/Release/helloworld.vst3 > ./build/VST3/Release/plugin.txt
+          node index.js ./build/VST3/Release/plugin.txt ./build/VST3/Release/plugin.json
 
       - name: Compress
         shell: bash
