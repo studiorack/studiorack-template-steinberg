@@ -15,6 +15,15 @@ const readline = require('readline');
 const PATH_IN = process.argv[2];
 const PATH_OUT = process.argv[3];
 
+const map = {
+  category: 'description',
+  name: 'name',
+  subCategories: 'tags',
+  url: 'homepage',
+  vendor: 'author',
+  version: 'version'
+}
+
 async function processLineByLine() {
   const fileStream = fs.createReadStream(PATH_IN);
   const rl = readline.createInterface({
@@ -22,20 +31,28 @@ async function processLineByLine() {
     crlfDelay: Infinity
   });
   const json = {};
+  // loop through validator output
   for await (let line of rl) {
+    // remove whitespace at start and end of lines
     line = line.trim();
+    // only process lines assigning values
     if (line.includes(' = ')) {
       let [key, val] = line.split(' = ');
+      // ignore keys with spaces
       if (!key.includes(' ')) {
+        // turn bar delimited strings into arrays
         if (val.includes('|')) {
           val = val.split('|');
         }
-        json[key] = val;
+        // rename and output only fields which exist in our map
+        if (map[key]) {
+          json[map[key]] = val;
+        }
       }
     }
   }
   console.log(json);
-  return fs.writeFile(PATH_OUT, JSON.stringify(json, null, 2), 'utf8', () => {
+  return fs.writeFile(PATH_OUT, JSON.stringify(json, Object.keys(json).sort(), 2), 'utf8', () => {
     console.log(PATH_OUT);
   });
 }
