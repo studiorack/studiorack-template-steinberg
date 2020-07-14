@@ -44,6 +44,10 @@ async function processLineByLine() {
         if (val.includes('|')) {
           val = val.split('|');
         }
+        // ensure tags is always an array
+        if (map[key] === 'tags' && val.constructor !== Array) {
+          val = [val];
+        }
         // rename and output only fields which exist in our map
         if (map[key]) {
           json[map[key]] = val;
