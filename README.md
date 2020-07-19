@@ -1,4 +1,4 @@
-# apm-plugin
+# studiorack-plugin
 
 Audio plugin starter template using Steinberg VST3 SDK to build binaries using:
 
