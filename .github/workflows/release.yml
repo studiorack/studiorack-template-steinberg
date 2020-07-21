@@ -82,7 +82,7 @@ jobs:
           cp -v ./src/helloworld.png ./build/VST3/Release/plugin.png
           cp -v ./src/helloworld.wav ./build/VST3/Release/plugin.wav
           ./build/bin/Release/validator ./build/VST3/Release/helloworld.vst3 > ./build/VST3/Release/plugin.txt
-          node index.js ./build/VST3/Release
+          node index.js ./build/VST3/Release/helloworld.vst3 ./build/VST3/Release
 
       - name: Compress
         shell: bash

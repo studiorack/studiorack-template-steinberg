@@ -13,6 +13,7 @@ const fs = require('fs');
 const readline = require('readline');
 
 const PATH_IN = process.argv[2];
+const PATH_OUT = process.argv[3];
 
 const map = {
   category: 'description',
@@ -24,7 +25,7 @@ const map = {
 }
 
 async function processLineByLine() {
-  const fileStream = fs.createReadStream(PATH_IN + '/plugin.txt');
+  const fileStream = fs.createReadStream(PATH_OUT + '/plugin.txt');
   const rl = readline.createInterface({
     input: fileStream,
     crlfDelay: Infinity
@@ -54,17 +55,22 @@ async function processLineByLine() {
       }
     }
   }
+  // if we can get filesize then add to json
+  const stats = fs.statSync(PATH_IN);
+  if (stats.size) {
+    json.size = stats.size;
+  }
   // if image exists add to json
-  if (fs.existsSync(PATH_IN + '/plugin.png')) {
+  if (fs.existsSync(PATH_OUT + '/plugin.png')) {
     json.image = 'plugin.png';
   }
   // if audio exists add to json
-  if (fs.existsSync(PATH_IN + '/plugin.wav')) {
+  if (fs.existsSync(PATH_OUT + '/plugin.wav')) {
     json.audio = 'plugin.wav';
   }
   console.log(json);
-  return fs.writeFile(PATH_IN + '/plugin.json', JSON.stringify(json, null, 2), 'utf8', () => {
-    console.log(PATH_IN + '/plugin.json');
+  return fs.writeFile(PATH_OUT + '/plugin.json', JSON.stringify(json, null, 2), 'utf8', () => {
+    console.log(PATH_OUT + '/plugin.json');
   });
 }
 

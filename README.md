@@ -93,9 +93,9 @@ Copy any additional files:
     cp -v ./src/helloworld.png ./build/VST3/Release/plugin.png
     cp -v ./src/helloworld.wav ./build/VST3/Release/plugin.wav
 
-Convert the validator report metadata into json using:
+Convert and enrich validator report metadata into json using:
 
-    node index.js ./build/VST3/Release
+    node index.js ./build/VST3/Release/helloworld.vst3 ./build/VST3/Release
 
 
 ## Build (automatic)
