@@ -79,8 +79,10 @@ jobs:
       - name: Metadata
         shell: bash
         run: |
+          cp -v ./src/helloworld.png ./build/VST3/Release/plugin.png
+          cp -v ./src/helloworld.wav ./build/VST3/Release/plugin.wav
           ./build/bin/Release/validator ./build/VST3/Release/helloworld.vst3 > ./build/VST3/Release/plugin.txt
-          node index.js ./build/VST3/Release/plugin.txt ./build/VST3/Release/plugin.json
+          node index.js ./build/VST3/Release
 
       - name: Compress
         shell: bash
@@ -108,3 +110,25 @@ jobs:
           asset_path: ./build/VST3/Release/plugin.json
           asset_name: plugin.json
           asset_content_type: application/json
+
+      - name: Upload image
+          if: matrix.os == 'ubuntu-latest'
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ needs.create_release.outputs.upload_url }}
+            asset_path: ./build/VST3/Release/plugin.png
+            asset_name: plugin.png
+            asset_content_type: image/png
+
+      - name: Upload audio
+            if: matrix.os == 'ubuntu-latest'
+            uses: actions/upload-release-asset@v1
+            env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            with:
+              upload_url: ${{ needs.create_release.outputs.upload_url }}
+              asset_path: ./build/VST3/Release/plugin.wav
+              asset_name: plugin.wav
+              asset_content_type: audio/wav
