@@ -31,6 +31,18 @@ If you need VST2 support, copy vst2sdk files into VST3 folder using:
 
 ## Usage
 
+Make all your plugin development changes in the source folder at:
+
+    ./src
+
+Ensure you also update the preview image and audio files:
+
+    ./src/plugin.png
+    ./src/plugin.wav
+
+
+## Build (manual)
+
 Depending on the the operating system you are on/building for, swap the generator string in the build commands:
 
 * Linux: "Unix Makefiles"
@@ -74,14 +86,19 @@ Ensure you have run a build with -DSMTG_ADD_VST3_HOSTING_SAMPLES=ON
 
 Then run the validator passing through the path to your VST plugin using:
 
-    ./build/bin/Release/validator ./build/VST3/Release/helloworld.vst3 > ./build/VST3/Release/helloworld.txt
+    ./build/bin/Release/validator ./build/VST3/Release/helloworld.vst3 > ./build/VST3/Release/plugin.txt
 
-Convert the validator report metadata into json using:
+Copy any additional files:
 
-    node index.js ./build/VST3/Release/helloworld.txt ./build/VST3/Release/helloworld.json
+    cp -v ./src/helloworld.png ./build/VST3/Release/plugin.png
+    cp -v ./src/helloworld.wav ./build/VST3/Release/plugin.wav
+
+Convert and enrich validator report metadata into json using:
+
+    node index.js ./build/VST3/Release/helloworld.vst3 ./build/VST3/Release
 
 
-## Releasing a plugin
+## Build (automatic)
 
 Release a plugin version on GitHub by simply creating a version tag:
 

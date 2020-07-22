@@ -6,7 +6,7 @@
  * ./build/bin/Release/validator ./build/VST3/Release/helloworld.vst3 > ./build/VST3/Release/helloworld.txt
  * 
  * You can use then use this script to turn the report into json:
- * node index.js ./build/VST3/Release/helloworld.txt ./build/VST3/Release/helloworld.json
+ * node index.js ./build/VST3/Release/helloworld
 */
 
 const fs = require('fs');
@@ -25,7 +25,7 @@ const map = {
 }
 
 async function processLineByLine() {
-  const fileStream = fs.createReadStream(PATH_IN);
+  const fileStream = fs.createReadStream(PATH_OUT + '/plugin.txt');
   const rl = readline.createInterface({
     input: fileStream,
     crlfDelay: Infinity
@@ -55,9 +55,22 @@ async function processLineByLine() {
       }
     }
   }
+  // if we can get filesize then add to json
+  const stats = fs.statSync(PATH_IN);
+  if (stats.size) {
+    json.size = stats.size;
+  }
+  // if image exists add to json
+  if (fs.existsSync(PATH_OUT + '/plugin.png')) {
+    json.image = 'plugin.png';
+  }
+  // if audio exists add to json
+  if (fs.existsSync(PATH_OUT + '/plugin.wav')) {
+    json.audio = 'plugin.wav';
+  }
   console.log(json);
-  return fs.writeFile(PATH_OUT, JSON.stringify(json, Object.keys(json).sort(), 2), 'utf8', () => {
-    console.log(PATH_OUT);
+  return fs.writeFile(PATH_OUT + '/plugin.json', JSON.stringify(json, null, 2), 'utf8', () => {
+    console.log(PATH_OUT + '/plugin.json');
   });
 }
 
