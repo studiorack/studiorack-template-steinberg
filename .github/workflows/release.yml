@@ -111,17 +111,6 @@ jobs:
           asset_name: plugin.json
           asset_content_type: application/json
 
-      - name: Upload audio
-        if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./build/VST3/Release/plugin.wav
-          asset_name: plugin.wav
-          asset_content_type: audio/wav
-
       - name: Upload image
         if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-release-asset@v1
@@ -133,4 +122,13 @@ jobs:
           asset_name: plugin.png
           asset_content_type: image/png
 
-
+      - name: Upload audio
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ./build/VST3/Release/plugin.wav
+          asset_name: plugin.wav
+          asset_content_type: audio/wav
