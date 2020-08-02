@@ -103,11 +103,11 @@ Convert and enrich validator report metadata into json using:
 Release a plugin version on GitHub by simply creating a version tag:
 
     git tag v0.0.1
-    git push origin --tags
+    git push && git push origin --tags
 
 This will run an automated build and release process on GitHub Actions:
 
-    .github/workflows/workflow.yml
+    .github/workflows/release.yml
 
 
 ## Resources & guides
