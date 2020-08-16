@@ -37,8 +37,8 @@ Make all your plugin development changes in the source folder at:
 
 Ensure you also update the preview image and audio files:
 
-    ./src/plugin.png
-    ./src/plugin.wav
+    ./src/helloworld.png
+    ./src/helloworld.wav
 
 
 ## Build (manual)
@@ -90,12 +90,20 @@ Then run the validator passing through the path to your VST plugin using:
 
 Copy any additional files:
 
-    cp -v ./src/helloworld.png ./build/VST3/Release/plugin.png
-    cp -v ./src/helloworld.wav ./build/VST3/Release/plugin.wav
+    cp -v ./src/helloworld.png ./build/VST3/Release/helloworld.png
+    cp -v ./src/helloworld.wav ./build/VST3/Release/helloworld.wav
 
-Convert and enrich validator report metadata into json using:
+For metadata generation as json use the studiorack-cli:
 
-    node index.js ./build/VST3/Release/helloworld.vst3 ./build/VST3/Release
+    npm install @studiorack/studiorack-cli -g
+
+Run the regular validator:
+
+    studiosrack validate ./build/VST3/Release/helloworld.vst3
+
+Convert and enrich validator report metadata into json:
+
+    studiosrack validate ./build/VST3/Release/helloworld.vst3 --metadata
 
 
 ## Build (automatic)
