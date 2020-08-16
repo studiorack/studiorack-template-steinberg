@@ -94,7 +94,7 @@ jobs:
           zip -r ../${{ matrix.zip_name }} *
 
       - name: Compress validator
-        if: ${{ secrets.CREATE_VALIDATOR == 'true' }}
+        if: ${{ github.repository_owner == 'studiorack' }}
         shell: bash
         run: |
           cd ../../bin/Release
@@ -111,7 +111,7 @@ jobs:
           asset_content_type: application/zip
 
       - name: Upload validator
-        if: ${{ secrets.CREATE_VALIDATOR == 'true' }}
+        if: ${{ github.repository_owner == 'studiorack' }}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
