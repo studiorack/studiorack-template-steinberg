@@ -97,7 +97,7 @@ jobs:
         if: ${{ github.repository_owner == 'studiorack' }}
         shell: bash
         run: |
-          cd ../../bin/Release
+          cd ./build/bin/Release
           zip -r ../${{ matrix.validator_name }} *
 
       - name: Upload plugin
