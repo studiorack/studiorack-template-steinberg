@@ -82,7 +82,7 @@ jobs:
       - name: Metadata
         shell: bash
         run: |
-          npm install @studiorack/studiorack-cli -g
+          npm install @studiorack/studiorack-cli
           cp -v ./src/helloworld.png ./build/VST3/Release/helloworld.png
           cp -v ./src/helloworld.wav ./build/VST3/Release/helloworld.wav
           studiosrack validate ./build/VST3/Release/helloworld.vst3
