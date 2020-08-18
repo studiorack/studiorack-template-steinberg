@@ -80,11 +80,13 @@ jobs:
           cmake --build ./build --config Release
 
       - name: Install node
+        if: matrix.os == 'ubuntu-latest'
         uses: actions/setup-node@v1
         with:
-          node-version: '12'
+          node-version: '14'
 
       - name: Metadata
+        if: matrix.os == 'ubuntu-latest'
         shell: bash
         run: |
           npm install @studiorack/studiorack-cli -g
