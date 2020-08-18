@@ -45,12 +45,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12'
-        run: npm install @studiorack/studiorack-cli -g
-
       - name: Install Linux dependencies
         if: matrix.os == 'ubuntu-latest'
         run: sudo apt-get update && sudo apt-get install cmake gcc "libstdc++6" libx11-xcb-dev libxcb-util-dev libxcb-cursor-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libfontconfig1-dev libcairo2-dev libgtkmm-3.0-dev libsqlite3-dev libxcb-keysyms1-dev
@@ -85,9 +79,15 @@ jobs:
             -B ./build
           cmake --build ./build --config Release
 
+      - name: Install node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+
       - name: Metadata
         shell: bash
         run: |
+          npm install @studiorack/studiorack-cli -g
           cp -v ./src/helloworld.png ./build/VST3/Release/helloworld.png
           cp -v ./src/helloworld.wav ./build/VST3/Release/helloworld.wav
           studiosrack validate ./build/VST3/Release/helloworld.vst3
