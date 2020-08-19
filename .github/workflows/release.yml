@@ -10,6 +10,8 @@ jobs:
     name: Create release
     runs-on: ubuntu-latest
     outputs:
+      id: ${{ steps.create_release.outputs.id }}
+      html_url: ${{ steps.create_release.outputs.html_url }}
       upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
       - name: Create release
@@ -51,7 +53,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install cmake gcc "libstdc++6" libx11-xcb-dev libxcb-util-dev libxcb-cursor-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libfontconfig1-dev libcairo2-dev libgtkmm-3.0-dev libsqlite3-dev libxcb-keysyms1-dev
 
       - name: Install macOS dependencies
-        if: matrix.os == 'macOS-latest'
+        if: matrix.os == 'macos-latest'
         run: brew install cmake
 
       - name: Install Windows dependencies
@@ -63,9 +65,6 @@ jobs:
       - name: Setup
         shell: bash
         run: |
-          echo ${{ needs.create_release.outputs.id }}
-          echo ${{ needs.create_release.outputs.html_url }}
-          echo ${{ needs.create_release.outputs.upload_url }}
           git submodule update --init --recursive
           cp -R -v ./vst2sdk/public.sdk/source/vst2.x ./vst3sdk/public.sdk/source
 
