@@ -163,16 +163,10 @@ jobs:
           asset_name: plugin.wav
           asset_content_type: audio/wav
 
-  publish_release:
-    name: Publish release
-    runs-on: ubuntu-latest
-    steps:
       - name: Publish release
-        id: publish_release
-        uses: actions/create-release@v1
+        if: matrix.os == 'ubuntu-latest'
+        uses: eregon/publish-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
+          release_id: ${{ steps.create_release.outputs.id }}
