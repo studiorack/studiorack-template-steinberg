@@ -93,10 +93,10 @@ jobs:
         shell: bash
         run: |
           npm install @studiorack/studiorack-cli -g
-          cp -v ./src/adelay.png ./build/VST3/Release/adelay.png
-          cp -v ./src/adelay.wav ./build/VST3/Release/adelay.wav
-          studiorack validate ./build/VST3/Release/adelay.vst3
-          studiorack validate ./build/VST3/Release/adelay.vst3 --metadata
+          cp -v ./src/helloworld.png ./build/VST3/Release/helloworld.png
+          cp -v ./src/helloworld.wav ./build/VST3/Release/helloworld.wav
+          studiorack validate ./build/VST3/Release/helloworld.vst3
+          studiorack validate ./build/VST3/Release/helloworld.vst3 --metadata
 
       - name: Compress plugin
         shell: bash
@@ -139,7 +139,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./build/VST3/Release/adelay.json
+          asset_path: ./build/VST3/Release/helloworld.json
           asset_name: plugin.json
           asset_content_type: application/json
 
@@ -150,7 +150,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./build/VST3/Release/adelay.png
+          asset_path: ./build/VST3/Release/helloworld.png
           asset_name: plugin.png
           asset_content_type: image/png
 
@@ -161,7 +161,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./build/VST3/Release/adelay.wav
+          asset_path: ./build/VST3/Release/helloworld.wav
           asset_name: plugin.wav
           asset_content_type: audio/wav
 
