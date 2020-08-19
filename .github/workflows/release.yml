@@ -63,6 +63,9 @@ jobs:
       - name: Setup
         shell: bash
         run: |
+          echo ${{ needs.create_release.outputs.id }}
+          echo ${{ needs.create_release.outputs.html_url }}
+          echo ${{ needs.create_release.outputs.upload_url }}
           git submodule update --init --recursive
           cp -R -v ./vst2sdk/public.sdk/source/vst2.x ./vst3sdk/public.sdk/source
 
