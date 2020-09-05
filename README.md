@@ -98,13 +98,17 @@ For metadata generation as json use the studiorack-cli:
 
     npm install @studiorack/studiorack-cli -g
 
-Run the regular validator:
+Validate your plugin:
 
     studiorack validate ./build/VST3/Release/helloworld.vst3
 
 Convert and enrich validator report metadata into json:
 
     studiorack validate ./build/VST3/Release/helloworld.vst3 --metadata
+
+Scan multiple plugins at the same time using wildcard selectors:
+
+    studiorack validate "./build/VST3/Release/**/*.{vst,vst3}" --metadata
 
 
 ## Build (automatic)
