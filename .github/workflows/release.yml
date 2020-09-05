@@ -9,7 +9,7 @@ on:
 jobs:
   create_release:
     name: Create release
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     outputs:
       id: ${{ steps.create_release.outputs.id }}
       html_url: ${{ steps.create_release.outputs.html_url }}
@@ -132,7 +132,7 @@ jobs:
           asset_content_type: application/zip
 
       - name: Upload metadata
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'windows-latest'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -143,7 +143,7 @@ jobs:
           asset_content_type: application/json
 
       - name: Upload image
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'windows-latest'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -154,7 +154,7 @@ jobs:
           asset_content_type: image/png
 
       - name: Upload audio
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'windows-latest'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -165,7 +165,7 @@ jobs:
           asset_content_type: audio/wav
 
       - name: Publish release
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'windows-latest'
         uses: eregon/publish-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
