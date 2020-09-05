@@ -41,6 +41,15 @@ Ensure you also update the preview image and audio files:
     ./src/helloworld.wav
 
 
+## Testing your plugin
+
+Ensure you have run a build with -DSMTG_ADD_VST3_HOSTING_SAMPLES=ON
+
+Then run the validator passing through the path to your VST plugin using:
+
+    ./build/bin/Release/validator ./build/VST3/Release/helloworld.vst3 > ./build/VST3/Release/helloworld.txt
+
+
 ## Build (manual)
 
 Depending on the the operating system you are on/building for, swap the generator string in the build commands:
@@ -80,14 +89,6 @@ Build the final plugin binaries using:
     cmake --build ./build --config Release
 
 
-## Testing your plugin
-
-Ensure you have run a build with -DSMTG_ADD_VST3_HOSTING_SAMPLES=ON
-
-Then run the validator passing through the path to your VST plugin using:
-
-    ./build/bin/Release/validator ./build/VST3/Release/helloworld.vst3 > ./build/VST3/Release/plugin.txt
-
 Copy any additional files:
 
     cp -v ./src/helloworld.png ./build/VST3/Release/helloworld.png
@@ -99,11 +100,11 @@ For metadata generation as json use the studiorack-cli:
 
 Run the regular validator:
 
-    studiosrack validate ./build/VST3/Release/helloworld.vst3
+    studiorack validate ./build/VST3/Release/helloworld.vst3
 
 Convert and enrich validator report metadata into json:
 
-    studiosrack validate ./build/VST3/Release/helloworld.vst3 --metadata
+    studiorack validate ./build/VST3/Release/helloworld.vst3 --metadata
 
 
 ## Build (automatic)
