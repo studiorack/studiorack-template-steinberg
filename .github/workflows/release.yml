@@ -96,8 +96,8 @@ jobs:
           npm install @studiorack/studiorack-cli -g
           cp -v ./src/helloworld.png ./build/VST3/Release/helloworld.png
           cp -v ./src/helloworld.wav ./build/VST3/Release/helloworld.wav
-          studiorack validate ./build/VST3/Release/helloworld.vst3
-          studiorack validate ./build/VST3/Release/helloworld.vst3 --metadata
+          studiorack validate "./build/VST3/Release/**/*.{vst,vst3}"
+          studiorack validate "./build/VST3/Release/**/*.{vst,vst3}" --metadata
 
       - name: Compress plugin
         shell: bash
