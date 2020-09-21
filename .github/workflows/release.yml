@@ -101,16 +101,19 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
+            const path = require('path');
             const fs = require('fs').promises;
-            for (let file of await fs.readdir('./build/VST3/Release/*.{json,png,wav,zip}')) {
-              console.log('file', file);
-              await github.repos.uploadReleaseAsset({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                release_id: needs.create_release.outputs.id,
-                name: file,
-                data: await fs.readFile(`./${file}`)
-              });
+            for (let file of await fs.readdirSync('./build/VST3/Release')) {
+              if (path.extname(file) === '.zip') {
+                console.log('file', file);
+                await github.repos.uploadReleaseAsset({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  release_id: needs.create_release.outputs.id,
+                  name: file,
+                  data: await fs.readFile(`./${file}`)
+                });
+              }
             }
 
       - name: Compress validator
