@@ -92,16 +92,26 @@ jobs:
         shell: bash
         run: |
           npm install @studiorack/studiorack-cli -g
-          cp -v ./src/helloworld.png ./build/VST3/Release/helloworld.png
-          cp -v ./src/helloworld.wav ./build/VST3/Release/helloworld.wav
+          cp -v ./src/assets/* ./build/VST3/Release
           studiorack validate "./build/VST3/Release/**/*.{vst,vst3}"
           studiorack validate "./build/VST3/Release/**/*.{vst,vst3}" --metadata
 
-      - name: Compress plugin
-        shell: bash
-        run: |
-          cd ./build/VST3/Release
-          zip -r ../${{ matrix.zip_name }} *
+      - name: Upload
+        uses: actions/github-script@v2
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const fs = require('fs').promises;
+            for (let file of await fs.readdir('./build/VST3/Release/**/*.{vst,vst3}')) {
+              console.log('file', file);
+              await github.repos.uploadReleaseAsset({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                release_id: needs.create_release.outputs.id,
+                name: file,
+                data: await fs.readFile(`./${file}`)
+              });
+            }
 
       - name: Compress validator
         if: ${{ github.repository_owner == 'studiorack' }}
@@ -109,16 +119,6 @@ jobs:
         run: |
           cd ./build/bin/Release
           zip -r ../${{ matrix.validator_name }} *
-
-      - name: Upload plugin
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./build/VST3/${{ matrix.zip_name }}
-          asset_name: ${{ matrix.zip_name }}
-          asset_content_type: application/zip
 
       - name: Upload validator
         if: ${{ github.repository_owner == 'studiorack' }}
@@ -132,37 +132,15 @@ jobs:
           asset_content_type: application/zip
 
       - name: Upload metadata
-        if: matrix.os == 'windows-latest'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./build/VST3/Release/helloworld.json
-          asset_name: plugin.json
-          asset_content_type: application/json
-
-      - name: Upload image
-        if: matrix.os == 'windows-latest'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./build/VST3/Release/helloworld.png
-          asset_name: plugin.png
-          asset_content_type: image/png
-
-      - name: Upload audio
-        if: matrix.os == 'windows-latest'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./build/VST3/Release/helloworld.wav
-          asset_name: plugin.wav
-          asset_content_type: audio/wav
+          if: matrix.os == 'windows-latest'
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ needs.create_release.outputs.upload_url }}
+            asset_path: ./build/VST3/Release/plugins.json
+            asset_name: plugins.json
+            asset_content_type: application/json
 
       - name: Publish release
         if: matrix.os == 'windows-latest'

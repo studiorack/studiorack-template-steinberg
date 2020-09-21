@@ -37,8 +37,8 @@ Make all your plugin development changes in the source folder at:
 
 Ensure you also update the preview image and audio files:
 
-    ./src/helloworld.png
-    ./src/helloworld.wav
+    ./src/assets/name.png
+    ./src/assets/name.wav
 
 
 ## Testing your plugin
@@ -91,8 +91,7 @@ Build the final plugin binaries using:
 
 Copy any additional files:
 
-    cp -v ./src/helloworld.png ./build/VST3/Release/helloworld.png
-    cp -v ./src/helloworld.wav ./build/VST3/Release/helloworld.wav
+    cp -v ./src/assets/* ./build/VST3/Release
 
 For metadata generation as json use the studiorack-cli:
 
@@ -100,13 +99,9 @@ For metadata generation as json use the studiorack-cli:
 
 Validate your plugin:
 
-    studiorack validate ./build/VST3/Release/helloworld.vst3
+    studiorack validate "./build/VST3/Release/**/*.{vst,vst3}"
 
 Convert and enrich validator report metadata into json:
-
-    studiorack validate ./build/VST3/Release/helloworld.vst3 --metadata
-
-Scan multiple plugins at the same time using wildcard selectors:
 
     studiorack validate "./build/VST3/Release/**/*.{vst,vst3}" --metadata
 
