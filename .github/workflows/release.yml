@@ -94,7 +94,7 @@ jobs:
           npm install @studiorack/studiorack-cli -g
           cp -v ./src/assets/* ./build/VST3/Release
           studiorack validate "./build/VST3/Release/**/*.{vst,vst3}"
-          studiorack validate "./build/VST3/Release/**/*.{vst,vst3}" --metadata
+          studiorack validate "./build/VST3/Release/**/*.{vst,vst3}" --metadata --zip
 
       - name: Upload
         uses: actions/github-script@v2
@@ -102,7 +102,7 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const fs = require('fs').promises;
-            for (let file of await fs.readdir('./build/VST3/Release/**/*.{vst,vst3}')) {
+            for (let file of await fs.readdir('./build/VST3/Release/*.{json,png,wav,zip}')) {
               console.log('file', file);
               await github.repos.uploadReleaseAsset({
                 owner: context.repo.owner,
