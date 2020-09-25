@@ -102,7 +102,7 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const path = require('path');
-            const fs = require('fs').promises;
+            const fs = require('fs');
             for (let file of await fs.readdirSync('./build/VST3/Release')) {
               if (path.extname(file) === '.zip') {
                 console.log('file', file);
@@ -111,7 +111,7 @@ jobs:
                   repo: context.repo.repo,
                   release_id: needs.create_release.outputs.id,
                   name: file,
-                  data: await fs.readFile(`./${file}`)
+                  data: await fs.readFileSync(`./${file}`)
                 });
               }
             }
