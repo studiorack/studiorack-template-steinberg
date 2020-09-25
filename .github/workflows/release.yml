@@ -108,7 +108,7 @@ jobs:
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   release_id: release_id,
-                  name: `${path.basename(file)}-${{ matrix.name }}.zip`,
+                  name: `${path.basename(file, path.extname(file))}-${{ matrix.name }}.zip`,
                   data: await fs.readFileSync(`./build/VST3/Release/${file}`)
                 });
               }
