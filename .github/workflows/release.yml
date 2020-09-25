@@ -15,7 +15,8 @@ jobs:
       html_url: ${{ steps.create_release.outputs.html_url }}
       upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
-      - name: Draft release
+      - name: Create release
+        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -23,6 +24,11 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           draft: true
+      - name: Debug release
+        run: |
+          echo "${{ steps.create_release.outputs.id }}"
+          echo "${{ steps.create_release.outputs.html_url }}"
+          echo "${{ steps.create_release.outputs.upload_url }}"
 
   build_release:
     name: Build release
