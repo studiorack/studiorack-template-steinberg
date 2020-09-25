@@ -127,15 +127,15 @@ jobs:
             console.log("${{ needs.create_release.outputs.id }}")
             const path = require('path');
             const fs = require('fs');
+            const release_id = '${{ needs.create_release.outputs.id }}';
             for (let file of await fs.readdirSync('./build/VST3/Release')) {
               if (path.extname(file) === '.zip') {
                 console.log('file', file);
-                console.log("This is the fifth step")
-                console.log("${{ needs.create_release.outputs.id }}")
+                console.log("This is the fifth step", release_id)
                 await github.repos.uploadReleaseAsset({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  release_id: needs.create_release.outputs.id,
+                  release_id: release_id,
                   name: file,
                   data: await fs.readFileSync(`./${file}`)
                 });
