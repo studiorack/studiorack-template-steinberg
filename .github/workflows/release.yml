@@ -11,12 +11,12 @@ jobs:
     name: Create release
     runs-on: windows-latest
     outputs:
-      id: ${{ steps.create_release.outputs.id }}
-      html_url: ${{ steps.create_release.outputs.html_url }}
-      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      id: ${{ steps.draft_release.outputs.id }}
+      html_url: ${{ steps.draft_release.outputs.html_url }}
+      upload_url: ${{ steps.draft_release.outputs.upload_url }}
     steps:
-      - name: Create release
-        id: create_release
+      - name: Draft release
+        id: draft_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -26,9 +26,19 @@ jobs:
           draft: true
       - name: Debug release
         run: |
-          echo "${{ steps.create_release.outputs.id }}"
-          echo "${{ steps.create_release.outputs.html_url }}"
-          echo "${{ steps.create_release.outputs.upload_url }}"
+          echo "${{ steps.draft_release.outputs.id }}"
+          echo "${{ steps.draft_release.outputs.html_url }}"
+          echo "${{ steps.draft_release.outputs.upload_url }}"
+
+  second:
+    needs: create_release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v3
+        with:
+          script: |
+            console.log("This is the second step")
+            console.log("${{ needs.create_release.outputs.id }}")
 
   build_release:
     name: Build release
