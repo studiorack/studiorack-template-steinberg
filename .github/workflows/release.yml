@@ -15,8 +15,7 @@ jobs:
       html_url: ${{ steps.create_release.outputs.html_url }}
       upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
-      - name: Create release
-        id: create_release
+      - name: Draft release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -97,7 +96,7 @@ jobs:
           studiorack validate "./build/VST3/Release/**/*.{vst,vst3}" --metadata --zip
 
       - name: Upload
-        uses: actions/github-script@v2
+        uses: actions/github-script@v3
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
