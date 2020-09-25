@@ -90,8 +90,7 @@ jobs:
         run: |
           npm install @studiorack/studiorack-cli -g
           cp -v ./src/assets/* ./build/VST3/Release
-          studiorack validate "./build/VST3/Release/**/*.{vst,vst3}"
-          studiorack validate "./build/VST3/Release/**/*.{vst,vst3}" --metadata --zip
+          studiorack validate "./build/VST3/Release/**/*.{vst,vst3}" --json --txt --zip --summary
 
       - name: Upload
         uses: actions/github-script@v3

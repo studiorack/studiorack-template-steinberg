@@ -103,7 +103,7 @@ Validate your plugin:
 
 Convert and enrich validator report metadata into json:
 
-    studiorack validate "./build/VST3/Release/**/*.{vst,vst3}" --metadata
+    studiorack validate "./build/VST3/Release/**/*.{vst,vst3}" --json
 
 
 ## Build (automatic)
