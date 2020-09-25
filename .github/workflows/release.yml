@@ -61,6 +61,13 @@ jobs:
             zip_name: plugin-win.zip
             generator: Visual Studio 16 2019
     steps:
+      - name: Debug level lower
+        uses: actions/github-script@v3
+        with:
+          script: |
+            console.log("This is the third step")
+            console.log("${{ needs.create_release.outputs.id }}")
+
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -116,11 +123,15 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
+            console.log("This is the forth step")
+            console.log("${{ needs.create_release.outputs.id }}")
             const path = require('path');
             const fs = require('fs');
             for (let file of await fs.readdirSync('./build/VST3/Release')) {
               if (path.extname(file) === '.zip') {
                 console.log('file', file);
+                console.log("This is the fifth step")
+                console.log("${{ needs.create_release.outputs.id }}")
                 await github.repos.uploadReleaseAsset({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
