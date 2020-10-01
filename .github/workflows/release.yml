@@ -102,13 +102,31 @@ jobs:
             const release_id = '${{ needs.create_release.outputs.id }}';
             for (let file of await fs.readdirSync('./build/VST3/Release')) {
               if (path.extname(file) === '.zip') {
-                console.log('uploadReleaseAsset', file);
+                console.log('uploadReleaseAsset', `./build/VST3/Release/${file}`);
                 await github.repos.uploadReleaseAsset({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   release_id: release_id,
                   name: `${path.basename(file, path.extname(file))}-${{ matrix.name }}.zip`,
                   data: await fs.readFileSync(`./build/VST3/Release/${file}`)
+                });
+              }
+              if (matrix.os == 'windows-latest') {
+                console.log('uploadReleaseAsset', `./build/VST3/Release/${path.basename(file, path.extname(file))}.png`);
+                await github.repos.uploadReleaseAsset({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  release_id: release_id,
+                  name: `${path.basename(file, path.extname(file))}.png`,
+                  data: await fs.readFileSync(`./build/VST3/Release/${path.basename(file, path.extname(file))}.png`)
+                });
+                console.log('uploadReleaseAsset', `./build/VST3/Release/${path.basename(file, path.extname(file))}.png`);
+                await github.repos.uploadReleaseAsset({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  release_id: release_id,
+                  name: `${path.basename(file, path.extname(file))}.wav`,
+                  data: await fs.readFileSync(`./build/VST3/Release/${path.basename(file, path.extname(file))}.wav`)
                 });
               }
             }
