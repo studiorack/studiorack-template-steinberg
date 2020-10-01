@@ -111,7 +111,7 @@ jobs:
                   data: await fs.readFileSync(`./build/VST3/Release/${file}`)
                 });
               }
-              if (matrix.os == 'windows-latest') {
+              if ("${{ matrix.os }}" == 'windows-latest') {
                 console.log('uploadReleaseAsset', `./build/VST3/Release/${path.basename(file, path.extname(file))}.png`);
                 await github.repos.uploadReleaseAsset({
                   owner: context.repo.owner,
