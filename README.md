@@ -95,7 +95,7 @@ Copy any additional files:
 
 For metadata generation as json use the studiorack-cli:
 
-    npm install @studiorack/studiorack-cli -g
+    npm install @studiorack/cli -g
 
 Validate your plugin:
 

@@ -88,7 +88,7 @@ jobs:
       - name: Metadata
         shell: bash
         run: |
-          npm install @studiorack/studiorack-cli -g
+          npm install @studiorack/cli -g
           cp -v ./src/assets/* ./build/VST3/Release
           studiorack validate "./build/VST3/Release/**/*.{vst,vst3}" --json --txt --zip --summary
 
