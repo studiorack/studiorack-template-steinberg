@@ -64,7 +64,6 @@ jobs:
         shell: bash
         run: |
           git submodule update --init --recursive
-          cp -R -v ./vst2sdk/public.sdk/source/vst2.x ./vst3sdk/public.sdk/source
 
       - name: Build
         shell: bash

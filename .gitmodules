@@ -1,6 +1,3 @@
-[submodule "vst2sdk"]
-	path = vst2sdk
-	url = https://github.com/studiorack/vst2sdk.git
 [submodule "vst3sdk"]
 	path = vst3sdk
 	url = https://github.com/steinbergmedia/vst3sdk.git
