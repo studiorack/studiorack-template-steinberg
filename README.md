@@ -1,5 +1,5 @@
-# studiorack-plugin
-![Release](https://github.com/studiorack/studiorack-plugin/workflows/Release/badge.svg)
+# studiorack-plugin-steinberg
+![Release](https://github.com/studiorack/studiorack-plugin-steinberg/workflows/Release/badge.svg)
 
 Audio plugin starter template using Steinberg VST3 SDK to build binaries using:
 
