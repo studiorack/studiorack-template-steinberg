@@ -151,16 +151,16 @@ jobs:
           asset_name: validator-${{ matrix.name }}.zip
           asset_content_type: application/zip
 
-      - name: Upload metadata
-        if: matrix.os == 'windows-latest'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ${{ matrix.path }}/plugins.json
-          asset_name: plugins.json
-          asset_content_type: application/json
+      # - name: Upload metadata
+      #   if: matrix.os == 'windows-latest'
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ needs.create_release.outputs.upload_url }}
+      #     asset_path: ${{ matrix.path }}/plugins.json
+      #     asset_name: plugins.json
+      #     asset_content_type: application/json
 
       - name: Publish release
         if: matrix.os == 'windows-latest'
