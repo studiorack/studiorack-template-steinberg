@@ -36,19 +36,22 @@ jobs:
           - os: ubuntu-latest
             name: linux
             generator: Unix Makefiles
+            path: ./build/VST3/Release
           - os: macos-latest
             name: mac
             generator: Xcode
+            path: ./build/VST3/Release
           - os: windows-latest
             name: win
             generator: Visual Studio 16 2019
+            path: ./build/VST3/Release
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Install Linux dependencies
         if: matrix.os == 'ubuntu-latest'
-        run: sudo apt-get update && sudo apt-get install cmake gcc "libstdc++6" libx11-xcb-dev libxcb-util-dev libxcb-cursor-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libfontconfig1-dev libcairo2-dev libgtkmm-3.0-dev libsqlite3-dev libxcb-keysyms1-dev
+        run: sudo apt-get update && sudo apt-get install cmake gcc "libstdc++6" libx11-xcb-dev libxcb-util-dev libxcb-cursor-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libfontconfig1-dev libcairo2-dev libgtkmm-3.0-dev libsqlite3-dev libxcb-keysyms1-dev libasound2-dev
 
       - name: Install macOS dependencies
         if: matrix.os == 'macos-latest'
@@ -88,8 +91,8 @@ jobs:
         shell: bash
         run: |
           npm install @studiorack/cli -g
-          cp -v ./src/assets/* ./build/VST3/Release
-          studiorack validate "./build/VST3/Release/**/*.{vst,vst3}" --json --txt --zip --summary
+          cp -v ./src/assets/* "${{ matrix.path }}"
+          studiorack validate "${{ matrix.path }}/**/*.{vst,vst3}" --json --txt --zip --summary
 
       - name: Upload
         uses: actions/github-script@v3
@@ -99,32 +102,32 @@ jobs:
             const path = require('path');
             const fs = require('fs');
             const release_id = '${{ needs.create_release.outputs.id }}';
-            for (let file of await fs.readdirSync('./build/VST3/Release')) {
+            for (let file of await fs.readdirSync('${{ matrix.path }}')) {
               if (path.extname(file) === '.zip') {
-                console.log('upload zip', `./build/VST3/Release/${file}`);
+                console.log('upload zip', `${{ matrix.path }}/${file}`);
                 await github.repos.uploadReleaseAsset({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   release_id: release_id,
                   name: `${path.basename(file, path.extname(file))}-${{ matrix.name }}.zip`,
-                  data: await fs.readFileSync(`./build/VST3/Release/${file}`)
+                  data: await fs.readFileSync(`${{ matrix.path }}/${file}`)
                 });
                 if ("${{ matrix.os }}" == 'windows-latest') {
-                  console.log('upload png', `./build/VST3/Release/${path.basename(file, path.extname(file))}.png`);
+                  console.log('upload png', `${{ matrix.path }}/${path.basename(file, path.extname(file))}.png`);
                   await github.repos.uploadReleaseAsset({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     release_id: release_id,
                     name: `${path.basename(file, path.extname(file))}.png`,
-                    data: await fs.readFileSync(`./build/VST3/Release/${path.basename(file, path.extname(file))}.png`)
+                    data: await fs.readFileSync(`${{ matrix.path }}/${path.basename(file, path.extname(file))}.png`)
                   });
-                  console.log('upload wav', `./build/VST3/Release/${path.basename(file, path.extname(file))}.wav`);
+                  console.log('upload wav', `${{ matrix.path }}/${path.basename(file, path.extname(file))}.wav`);
                   await github.repos.uploadReleaseAsset({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     release_id: release_id,
                     name: `${path.basename(file, path.extname(file))}.wav`,
-                    data: await fs.readFileSync(`./build/VST3/Release/${path.basename(file, path.extname(file))}.wav`)
+                    data: await fs.readFileSync(`${{ matrix.path }}/${path.basename(file, path.extname(file))}.wav`)
                   });
                 }
               }
@@ -155,7 +158,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./build/VST3/Release/plugins.json
+          asset_path: ${{ matrix.path }}/plugins.json
           asset_name: plugins.json
           asset_content_type: application/json
 
