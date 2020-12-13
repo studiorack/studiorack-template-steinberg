@@ -3,30 +3,25 @@
 
 Audio plugin starter template using Steinberg VST3 SDK to build binaries using:
 
-* Bash
-* CMake 3.4.x
+* Docker 20.10.x
+* QEMU 5.1.x
 * VST3sdk 3.6.x
 
 
 ## Installation
 
-Install CMake and Xcode using:
-
-    brew install cmake
-    xcode-select --install
-
-Check you have the correct dependencies installed:
-
-    cmake -version
-    xcodebuild -version
-
 Ensure all git submodules are initialized:
 
     git submodule update --init --recursive
 
-If you need VST2 support, copy vst2sdk files into VST3 folder using:
+Ensure Docker and Virt-Manager are installed:
 
-    cp -R -v ./vst2sdk/public.sdk/source/vst2.x ./vst3sdk/public.sdk/source
+    brew tap jeffreywildman/homebrew-virt-manager
+    brew install docker virt-manager virt-viewer
+
+Build Docker images using:
+
+    docker-compose build plugin-linux
 
 
 ## Usage
@@ -41,15 +36,6 @@ Ensure you also update the preview image and audio files:
     ./src/assets/name.wav
 
 
-## Testing your plugin
-
-Ensure you have run a build with -DSMTG_ADD_VST3_HOSTING_SAMPLES=ON
-
-Then run the validator passing through the path to your VST plugin using:
-
-    ./build/bin/Release/validator ./build/VST3/Release/helloworld.vst3 > ./build/VST3/Release/helloworld.txt
-
-
 ## Build (manual)
 
 Depending on the the operating system you are on/building for, swap the generator string in the build commands:
@@ -60,10 +46,11 @@ Depending on the the operating system you are on/building for, swap the generato
 
 Compile a development version of the plugin using:
 
+    docker-compose run plugin-linux bash
     cmake \
-      -G "Xcode" \
+      -G "Unix Makefiles" \
       -DCMAKE_BUILD_TYPE=Debug \
-      -DSMTG_ADD_VST3_PLUGINS_SAMPLES=OFF \
+      -DSMTG_ADD_VST3_PLUGINS_SAMPLES=OFF \ 
       -DSMTG_ADD_VST3_HOSTING_SAMPLES=ON \
       -DSMTG_ADD_VSTGUI=OFF \
       -DSMTG_MYPLUGINS_SRC_PATH=./src \

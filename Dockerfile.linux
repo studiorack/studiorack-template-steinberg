@@ -1,0 +1,24 @@
+FROM ubuntu:latest
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Create app directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# Install dependencies
+RUN apt-get update && apt-get install build-essential cmake "libstdc++6" libx11-xcb-dev libxcb-util-dev libxcb-cursor-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libfontconfig1-dev libcairo2-dev libgtkmm-3.0-dev libsqlite3-dev libxcb-keysyms1-dev libasound2-dev libjack-jackd2-dev -yq
+
+# Copy source
+COPY ./src /usr/src/app
+COPY ./vst3sdk /usr/src/vst3sdk
+
+CMD cmake \
+      -G "Unix Makefiles" \
+      -DCMAKE_BUILD_TYPE=Debug \
+      -DSMTG_ADD_VST3_PLUGINS_SAMPLES=OFF \ 
+      -DSMTG_ADD_VST3_HOSTING_SAMPLES=ON \
+      -DSMTG_ADD_VSTGUI=OFF \
+      -DSMTG_MYPLUGINS_SRC_PATH=./src \
+      -S ./vst3sdk \
+      -B ./build && \
+    cmake --build ./build --config Debug
