@@ -51,14 +51,17 @@ jobs:
 
       - name: Install Linux dependencies
         if: matrix.os == 'ubuntu-latest'
+        shell: bash
         run: sudo apt-get update && sudo apt-get install cmake gcc "libstdc++6" libx11-xcb-dev libxcb-util-dev libxcb-cursor-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libfontconfig1-dev libcairo2-dev libgtkmm-3.0-dev libsqlite3-dev libxcb-keysyms1-dev libasound2-dev
 
       - name: Install macOS dependencies
         if: matrix.os == 'macos-latest'
+        shell: bash
         run: brew install cmake
 
       - name: Install Windows dependencies
         if: matrix.os == 'windows-latest'
+        shell: bash
         run: |
           choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
           choco install zip
@@ -81,11 +84,6 @@ jobs:
             -S ./vst3sdk \
             -B ./build
           cmake --build ./build --config Release
-
-      - name: Install node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '14'
 
       - name: Metadata
         shell: bash
