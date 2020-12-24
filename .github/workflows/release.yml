@@ -90,7 +90,7 @@ jobs:
         run: |
           npm install @studiorack/cli -g
           cp -v ./src/assets/* "${{ matrix.path }}"
-          studiorack validate "${{ matrix.path }}/**/*.{vst,vst3}" --json --txt --zip --summary
+          studiorack validate "${{ matrix.path }}/**/*.{vst,vst3}" --files --json --txt --zip --summary
 
       - name: Upload
         uses: actions/github-script@v3
