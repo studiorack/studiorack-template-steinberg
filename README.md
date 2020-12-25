@@ -63,7 +63,7 @@ Compile a development version of the plugin using:
     cmake \
       -G "Xcode" \
       -DCMAKE_BUILD_TYPE=Debug \
-      -DSMTG_ADD_VST3_PLUGINS_SAMPLES=OFF \
+      -DSMTG_ADD_VST3_PLUGINS_SAMPLES=ON \
       -DSMTG_ADD_VST3_HOSTING_SAMPLES=ON \
       -DSMTG_ADD_VSTGUI=OFF \
       -DSMTG_MYPLUGINS_SRC_PATH=./src \
@@ -80,7 +80,7 @@ Build the final plugin binaries using:
     cmake \
       -G "Xcode" \
       -DCMAKE_BUILD_TYPE=Release \
-      -DSMTG_ADD_VST3_PLUGINS_SAMPLES=OFF \
+      -DSMTG_ADD_VST3_PLUGINS_SAMPLES=ON \
       -DSMTG_ADD_VST3_HOSTING_SAMPLES=ON \
       -DSMTG_ADD_VSTGUI=OFF \
       -DSMTG_MYPLUGINS_SRC_PATH=./src \

@@ -9,7 +9,7 @@ on:
 jobs:
   create_release:
     name: Create release
-    runs-on: windows-latest
+    runs-on: macos-latest
     outputs:
       id: ${{ steps.draft_release.outputs.id }}
       html_url: ${{ steps.draft_release.outputs.html_url }}
@@ -115,7 +115,7 @@ jobs:
                   name: `${path.basename(file, path.extname(file))}-${{ matrix.name }}.zip`,
                   data: await fs.readFileSync(`${{ matrix.path }}/${file}`)
                 });
-                if ("${{ matrix.os }}" == 'windows-latest') {
+                if ("${{ matrix.os }}" == 'macos-latest') {
                   console.log('upload png', `${{ matrix.path }}/${path.basename(file, path.extname(file))}.png`);
                   await github.repos.uploadReleaseAsset({
                     owner: context.repo.owner,
@@ -155,7 +155,7 @@ jobs:
           asset_content_type: application/zip
 
       - name: Upload metadata
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'macos-latest'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
