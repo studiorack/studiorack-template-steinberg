@@ -52,7 +52,7 @@ Then run the validator passing through the path to your VST plugin using:
 
 ## Build (manual)
 
-Depending on the the operating system you are on/building for, swap the generator string in the build commands:
+Depending on the operating system you are on/building for, swap the generator string in the build commands:
 
 * Linux: "Unix Makefiles"
 * MacOS: "Xcode"
