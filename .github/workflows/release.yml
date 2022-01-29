@@ -12,7 +12,6 @@ jobs:
     runs-on: macos-latest
     outputs:
       id: ${{ steps.draft_release.outputs.id }}
-      html_url: ${{ steps.draft_release.outputs.html_url }}
       upload_url: ${{ steps.draft_release.outputs.upload_url }}
     steps:
       - name: Draft release
