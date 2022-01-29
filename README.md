@@ -26,7 +26,7 @@ Ensure all git submodules are initialized:
 
 If you need VST2 support, copy vst2sdk files into VST3 folder using:
 
-    cp -R -v ./vst2sdk/public.sdk/source/vst2.x ./vst3sdk/public.sdk/source
+    cp -R -v ./vst2sdk/public.sdk/source/vst2.x ./sdk/public.sdk/source
 
 
 ## Usage
@@ -67,7 +67,7 @@ Compile a development version of the plugin using:
       -DSMTG_ADD_VST3_HOSTING_SAMPLES=ON \
       -DSMTG_ADD_VSTGUI=OFF \
       -DSMTG_MYPLUGINS_SRC_PATH=./src \
-      -S ./vst3sdk \
+      -S ./sdk \
       -B ./build
     cmake --build ./build --config Debug
 
@@ -84,7 +84,7 @@ Build the final plugin binaries using:
       -DSMTG_ADD_VST3_HOSTING_SAMPLES=ON \
       -DSMTG_ADD_VSTGUI=OFF \
       -DSMTG_MYPLUGINS_SRC_PATH=./src \
-      -S ./vst3sdk \
+      -S ./sdk \
       -B ./build
     cmake --build ./build --config Release
 
