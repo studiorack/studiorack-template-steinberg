@@ -34,7 +34,7 @@ jobs:
 
   publish_release:
     name: Publish release
-    needs: build_release
+    needs: [create_release, build_release]
     runs-on: ubuntu-latest
     steps:
     - uses: eregon/publish-release@v1
